@@ -54,9 +54,9 @@ st
 colnames(st)
 #4
 rownames(st)
-#5 í–‰&ì—´ì˜ ê°œìˆ˜
+#5 ?–‰&?—´?˜ ê°œìˆ˜
 dim(st)
-#6 ë°ì´í„° ìš”ì•½
+#6 ?°?´?„° ?š”?•½
 str(st)
 #7
 rowSums(st)
@@ -119,7 +119,9 @@ life=st[,"Life.Exp"]
 result=cbind(region,life)
 df=data.frame(result)
 max=which.max(df$life)
-df[max,]
+maxrow=df[max,]
+country=maxrow[1,1]
+country
 #21
 region=rownames(st)
 income=st[,"Income"]
