@@ -1,3 +1,6 @@
+/* Author: Yoonhyuck WOO / JBNU_Industrial Information system Engineering
+ Date; Oct. 19 2020
+ Title: Student Array*/
 #include <stdio.h>
 
 struct student {
