@@ -48,45 +48,48 @@ int boundary(int y, int x, int arr[][102])
 		arr[29][i] = 95;
 	}
 }
-/*
-int power(int x)
-{
-	if (1 <= x & x <= 10) x = 1;
-	else if (11 <= x & x <= 20) x = 2;
-	else if (21 <= x & x <= 30) x = 3;
-	else if (31 <= x & x <= 30) x = 4;
-	else if (41 < x & x < 50) x = 5;
-	else if (51 <= x & x <= 60) x = 6;
-	else if (61 <= x & x <= 70) x = 7;
-	else if (71 <= x & x <= 80)x = 8;
-	else if (81 <= x & x <= 90)x = 9;
-	else if (91 <= x & x <= 99)x = 10;
-	else printf("=============out of range.=============\n");
-}
 
-int angle(int x)
-{
-	if (x = 0) x = 0;
-	else if (1 <= x & x <= 15) x = 1;
-	else if (16 <= x & x <= 30) x = 2;
-	else if (31 <= x & x <= 45) x = 3;
-	else if (46 <= x & x <= 60) x = 4;
-	else if (61 <= x & x <= 75) x = 5;
-	else if (76 <= x & x <= 89) x = 6;
-	else if (x = 90)x = 0;
-	else printf("=============out of range.=============\n");
-}*/
-int trajectory(int x, int y, int power, double angle, int gravity, int arr[][102])
+int P1_trajectory(int x, int y, int power, double angle, int gravity, float wind, int arr[][102])
 {
 	int i= 0;
 	double increasement_x;
-	increasement_x = sin(3.141592 * (angle / 180));
+	increasement_x = cos(angle * (3.141592 / 180));
 	double increasement_y;
-	increasement_y = cos(3.141592 * (angle / 180));
-
-	while(x>100 | y>30)
+	increasement_y = sin(angle * (3.141592 / 180));
+	x = x + 3, y = y - 3;
+	printf("%f\n", increasement_x);
+	printf("%f\n", increasement_y);
+	while((0 < x & x < 100) & (0 < y & y < 30))
 	{
-		arr[y + power * (int)increasement_y][x + power* (int)increasement_x] = 79;
+		y = y - (int) ((int)(power) * increasement_y)+gravity;
+		x = x + (int) ((int)(power) * increasement_x) + wind;
+		gravity=gravity+1;
+		//printf("%d %d\n", x, y);
+		if ((0 < x & x < 100) &(0 < y & y < 30))
+			arr[y][x] = 79;
+		else break;
+	}
+}
+
+int P2_trajectory(int x, int y, int power, double angle, int gravity, float wind, int arr[][102])
+{
+	int i = 0;
+	double increasement_x;
+	increasement_x = cos(angle * (3.141592 / 180));
+	double increasement_y;
+	increasement_y = sin(angle * (3.141592 / 180));
+	x = x - 3, y = y - 3;
+	printf("%f\n", increasement_x);
+	printf("%f\n", increasement_y);
+	while ((0 < x & x < 100) & (0 < y & y < 30))
+	{
+		y = y - (int)((int)(power)*increasement_y) + gravity;
+		x = x - (int)((int)(power)*increasement_x) - wind;
+		gravity = gravity + 1;
+		//printf("%d %d\n", x, y);
+		if ((0 < x & x < 100) & (0 < y & y < 30))
+			arr[y][x] = 79;
+		else break;
 	}
 }
 
@@ -136,11 +139,12 @@ void clean_pitch(int height, int length, int arr[][102]) {
 	}
 }
 
-int main() 
+int main(void) 
 {
 	srand(time(NULL));
-	int x =0, y=0, a=0, b=0, p=0;
-	int wind = 0, answer = 1, gravity = 3;
+	int x =0, y=0, ang=0, b=0, po=0;
+	int answer = 1, gravity = 2;
+	float wind;
 	int i, k, j = 0;
 	int pitch_length = 102;
 	int pitch_height = 31;
@@ -149,11 +153,29 @@ int main()
 	y = (rand() % 20) + 1;
 	a = 40 + (rand() % 30) + 1;
 	b = (rand() % 20) + 1;
-	
+	wind = rand() % 4 - 2;
 	printf("1. Start Game. \n");
 	printf("2. End Game. \n");
-	printf("The power of wind: <<, <, >>, > \n");
-	
+	if (wind == 2)
+	{
+		printf("The power of wind: >> \n");
+	}
+	else if (wind == 1)
+	{
+		printf("The power of wind: > \n");
+	}
+	else if (wind == 0)
+	{
+		printf("The power of wind: Ùí \n");
+	}
+	else if (wind == -1)
+	{
+		printf("The power of wind: < \n");
+	}
+	else if (wind == -2)
+	{
+		printf("The power of wind: << \n");
+	}
 	//printf("Your answer: ");
 	//scanf_s("%d", &answer);
 	
@@ -169,18 +191,26 @@ int main()
 		while (1)
 		{
 			printf("intensity of power(1-99): ");
-			if (p > 99 | p<1)
+			scanf_s("%d", &po);
+			while (po> 99 | po < 1)
 			{
-				print("out of range. \n");
+				printf("out of range. \n");
+				printf("intensity of power(1-99): ");
+				scanf_s("%d", &po);
 			}
-			scanf_s("%d", &p);
 			printf("angle(0~90¡Æ): ");
-			if (a > 90 | a<0)
+			scanf_s("%d", &ang);
+			while (ang > 90 | ang < 0)
 			{
-				print("out of range. \n");
+				printf("out of range. \n");
+				printf("angle(0~90¡Æ): ");
+				scanf_s("%d", &ang);
 			}
-			else scanf_s("%d", &a);
-			trajectory(x + 3, 30 - y - 3, p, a, gravity, arr);
+			clean_pitch(pitch_height, pitch_length, arr);
+			me(x, y, arr);
+			enemy(a, b, arr);
+			P1_trajectory(x + 3, 30 - y - 3, po, ang, gravity, wind, arr);
+			//P2_trajectory(a - 3, 30 - b - 3, po, ang, gravity, wind, arr);
 			print_pitch(pitch_height, pitch_length, arr);
 			printf("\n");
 		}
