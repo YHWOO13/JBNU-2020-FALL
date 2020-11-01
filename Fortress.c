@@ -8,8 +8,6 @@
 #include<time.h>
 #include<math.h>
 
-//21:คว, 22:คฬ 5:|
-
 int me(int x, int y, int arr[][102]) {
 	int i, j = 0;
 	arr[30 - y][x] = 77;
@@ -49,7 +47,7 @@ int boundary(int y, int x, int arr[][102])
 	}
 }
 
-int P1_trajectory(int x, int y, int power, double angle, int gravity, float wind, int arr[][102])
+int P1_trajectory(int x, int y, int a, int b, int power, double angle, int gravity, float wind, int arr[][102])
 {
 	int i= 0;
 	double increasement_x;
@@ -59,19 +57,30 @@ int P1_trajectory(int x, int y, int power, double angle, int gravity, float wind
 	x = x + 3, y = y - 3;
 	printf("%f\n", increasement_x);
 	printf("%f\n", increasement_y);
+	printf("%d, %d \n", a, b);
 	while((0 < x & x < 100) & (0 < y & y < 30))
 	{
 		y = y - (int) ((int)(power) * increasement_y)+gravity;
 		x = x + (int) ((int)(power) * increasement_x) + wind;
 		gravity=gravity+1;
-		//printf("%d %d\n", x, y);
-		if ((0 < x & x < 100) &(0 < y & y < 30))
+		printf("%d, %d\n", x, y);
+		if ((0 < x & x < 100) & (0 < y & y < 30))
+		{
 			arr[y][x] = 79;
-		else break;
+			if ((30- b - 4 <= y & y <= 30 - b + 1) & (a - 4 <= x & x <= a + 1))
+			{
+				printf("             =================================Success================================= \n");
+				break;
+			}
+		}
+		else
+		{
+			printf("             =================================Fail================================= \n");
+			break;
+		}
 	}
 }
-
-int P2_trajectory(int x, int y, int power, double angle, int gravity, float wind, int arr[][102])
+int P2_trajectory(int x, int y, int a, int b, int power, double angle, int gravity, float wind, int arr[][102])
 {
 	int i = 0;
 	double increasement_x;
@@ -91,6 +100,16 @@ int P2_trajectory(int x, int y, int power, double angle, int gravity, float wind
 			arr[y][x] = 79;
 		else break;
 	}
+	if ((b - 2 <= y & y <= b) & (a - 2 <= x & x <= a))
+	{
+		printf("Success. \n");
+	}
+	else printf("Fail. \n");
+}
+
+int target(int x, int y, int a, int b)
+{
+
 }
 
 int start_point(int height, int length, int arr[][102])
@@ -142,7 +161,7 @@ void clean_pitch(int height, int length, int arr[][102]) {
 int main(void) 
 {
 	srand(time(NULL));
-	int x =0, y=0, ang=0, b=0, po=0;
+	int x =0, y=0, ang=0, a=0, b=0, po=0;
 	int answer = 1, gravity = 2;
 	float wind;
 	int i, k, j = 0;
@@ -209,8 +228,8 @@ int main(void)
 			clean_pitch(pitch_height, pitch_length, arr);
 			me(x, y, arr);
 			enemy(a, b, arr);
-			P1_trajectory(x + 3, 30 - y - 3, po, ang, gravity, wind, arr);
-			//P2_trajectory(a - 3, 30 - b - 3, po, ang, gravity, wind, arr);
+			P1_trajectory(x + 3, 30 - y - 3, a, b, po, ang, gravity, wind, arr);
+			//P2_trajectory(a - 3, 30 - b - 3, x, y, po, ang, gravity, wind, arr);
 			print_pitch(pitch_height, pitch_length, arr);
 			printf("\n");
 		}
