@@ -6,14 +6,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<math.h>
+
 //21:¤Ç, 22:¤Ì 5:|
 
-int me(int x, int y, int arr[][72]) {
-	/*
-	srand(time(NULL));
-	int x, y = 0;
-	x = (rand() % 30) + 1;
-	y = (rand() % 20) + 1; */
+int me(int x, int y, int arr[][102]) {
 	int i, j = 0;
 	arr[30 - y][x] = 77;
 	arr[30 - y][x + 1] = 92;
@@ -25,11 +22,7 @@ int me(int x, int y, int arr[][72]) {
 	}
 	arr[30 - y -3][x +3] = 79;
 }
-int enemy(int a, int b, int arr[][72]) {
-	srand(time(NULL));
-	int a, b = 0;
-	a = 40 + (rand() % 30) + 1;
-	b = (rand() % 20) + 1;
+int enemy(int a, int b, int arr[][102]) {
 	int i, j = 0;
 	arr[30 - b][a] = 69;
 	arr[30 - b][a - 1] = 92;
@@ -41,7 +34,7 @@ int enemy(int a, int b, int arr[][72]) {
 	}
 	arr[30 - b - 3][a - 3] = 79;
 }
-int boundary(int y, int x, int arr[][72])
+int boundary(int y, int x, int arr[][102])
 {
 	int i, j = 0;
 	//yÃà
@@ -55,7 +48,7 @@ int boundary(int y, int x, int arr[][72])
 		arr[29][i] = 95;
 	}
 }
-
+/*
 int power(int x)
 {
 	if (1 <= x & x <= 10) x = 1;
@@ -82,36 +75,39 @@ int angle(int x)
 	else if (76 <= x & x <= 89) x = 6;
 	else if (x = 90)x = 0;
 	else printf("=============out of range.=============\n");
-}
-int trajectory(int x, int y, int power, int angle, int gravity, int arr[][72])
+}*/
+int trajectory(int x, int y, int power, double angle, int gravity, int arr[][102])
 {
-	int i, j, k = 0;
-	for (i = 0; i < 7; i++)
+	int i= 0;
+	double increasement_x;
+	increasement_x = sin(3.141592 * (angle / 180));
+	double increasement_y;
+	increasement_y = cos(3.141592 * (angle / 180));
+
+	while(x>100 | y>30)
 	{
-		arr[y + power * angle-gravity][x + power] = 79;
+		arr[y + power * (int)increasement_y][x + power* (int)increasement_x] = 79;
 	}
 }
 
-int start_point(int height, int length, int arr[][72])
+int start_point(int height, int length, int arr[][102])
 {
 	srand(time(NULL));
 	int i, j, k = 0;
 	int me_x, me_y = 0;
 	me_x = (rand() % 30) + 1;
-	me_y = (rand() % 20) + 1;
+	me_y =1+ (rand() % 20) + 1;
 
 	int enemy_x, enemy_y = 0;
 	enemy_x = 40 + (rand() % 30) + 1;
-	enemy_y = (rand() % 20) + 1;
+	enemy_y =1+ (rand() % 20) + 1;
 
 	me(me_x, me_y, arr);
 	enemy(enemy_y, enemy_x, arr);
 }
-int print_pitch(int height, int length, int arr[][72])
+int print_pitch(int height, int length, int arr[][102])
 {
 	int i, j, k = 0;
-	me(arr);
-	enemy(arr);
 	boundary(height, length, arr);
 	
 	for (i = 0; i < height ; i++)
@@ -122,14 +118,14 @@ int print_pitch(int height, int length, int arr[][72])
 		}
 		printf("\n");
 	}
-	for (i = 0; i < 71; i++)
+	for (i = 0; i < 101; i++)
 	{
 		printf(" ");
 	}
-	printf("%d", 70);
+	printf("%d", 100);
 }
 
-void clean_pitch(int height, int length, int arr[][72]) {
+void clean_pitch(int height, int length, int arr[][102]) {
 	int i = 0, j = 0;
 	for (i = 0; i < height; i++)
 	{
@@ -143,16 +139,13 @@ void clean_pitch(int height, int length, int arr[][72]) {
 int main() 
 {
 	srand(time(NULL));
-	int x, y = 0;
-	int a, b = 0;
-	int answer = 1;
-	int p, a, wind = 0;
-	int gravity = 3;
+	int x =0, y=0, a=0, b=0, p=0;
+	int wind = 0, answer = 1, gravity = 3;
 	int i, k, j = 0;
-	int pitch_length = 72;
+	int pitch_length = 102;
 	int pitch_height = 31;
-	int arr[31][72] = { 0, };
-	x = (rand() % 30) + 1;
+	int arr[31][102] = { 0, };
+	x = 1+ (rand() % 30) + 1;
 	y = (rand() % 20) + 1;
 	a = 40 + (rand() % 30) + 1;
 	b = (rand() % 20) + 1;
@@ -168,18 +161,28 @@ int main()
 	{
 		//start_point(pitch_height, pitch_length, arr);
 		clean_pitch(pitch_height, pitch_length, arr);
+		me(x, y, arr);
+		enemy(a, b, arr);
 		print_pitch(pitch_height, pitch_length, arr);
 		printf("\n");
 
 		while (1)
 		{
 			printf("intensity of power(1-99): ");
+			if (p > 99 | p<1)
+			{
+				print("out of range. \n");
+			}
 			scanf_s("%d", &p);
 			printf("angle(0~90¡Æ): ");
-			scanf_s("%d", &a);
-
-			power(p);
-			angle(a);
+			if (a > 90 | a<0)
+			{
+				print("out of range. \n");
+			}
+			else scanf_s("%d", &a);
+			trajectory(x + 3, 30 - y - 3, p, a, gravity, arr);
+			print_pitch(pitch_height, pitch_length, arr);
+			printf("\n");
 		}
 
 	}
