@@ -7,6 +7,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include<math.h>
+#include<Windows.h>
 
 int me(int x, int y, int arr[][102]) {
 	int i, j = 0;
@@ -49,34 +50,30 @@ int boundary(int y, int x, int arr[][102])
 
 int P1_trajectory(int x, int y, int a, int b, int power, double angle, int gravity, float wind, int arr[][102])
 {
-	int i= 0;
+	int i= 0, success = 1, fail = 0;
 	double increasement_x;
 	increasement_x = cos(angle * (3.141592 / 180));
 	double increasement_y;
 	increasement_y = sin(angle * (3.141592 / 180));
 	x = x + 3, y = y - 3;
-	printf("%f\n", increasement_x);
-	printf("%f\n", increasement_y);
-	printf("%d, %d \n", a, b);
 	while((0 < x & x < 100) & (0 < y & y < 30))
 	{
 		y = y - (int) ((int)(power) * increasement_y)+gravity;
 		x = x + (int) ((int)(power) * increasement_x) + wind;
 		gravity=gravity+1;
-		printf("%d, %d\n", x, y);
 		if ((0 < x & x < 100) & (0 < y & y < 30))
 		{
 			arr[y][x] = 79;
-			if ((30- b - 4 <= y & y <= 30 - b + 1) & (a - 4 <= x & x <= a + 1))
+			if ((30 - b - 4 <= y & y <= 30 - b+1) & (a - 4 <= x & x <= a+1))
 			{
 				printf("             =================================Success================================= \n");
-				break;
+				return 1;
 			}
 		}
 		else
 		{
 			printf("             =================================Fail================================= \n");
-			break;
+			return 0;
 		}
 	}
 }
@@ -88,28 +85,26 @@ int P2_trajectory(int x, int y, int a, int b, int power, double angle, int gravi
 	double increasement_y;
 	increasement_y = sin(angle * (3.141592 / 180));
 	x = x - 3, y = y - 3;
-	printf("%f\n", increasement_x);
-	printf("%f\n", increasement_y);
 	while ((0 < x & x < 100) & (0 < y & y < 30))
 	{
 		y = y - (int)((int)(power)*increasement_y) + gravity;
 		x = x - (int)((int)(power)*increasement_x) - wind;
 		gravity = gravity + 1;
-		//printf("%d %d\n", x, y);
 		if ((0 < x & x < 100) & (0 < y & y < 30))
+		{
 			arr[y][x] = 79;
-		else break;
+			if ((30 - b - 4 <= y & y <= 30 - b +1) & (a - 4 <= x & x <= a+1))
+			{
+				printf("             =================================Success================================= \n");
+				return 1;
+			}
+		}
+		else
+		{
+			printf("             =================================Fail================================= \n");
+			return 0;
+		}
 	}
-	if ((b - 2 <= y & y <= b) & (a - 2 <= x & x <= a))
-	{
-		printf("Success. \n");
-	}
-	else printf("Fail. \n");
-}
-
-int target(int x, int y, int a, int b)
-{
-
 }
 
 int start_point(int height, int length, int arr[][102])
@@ -145,6 +140,7 @@ int print_pitch(int height, int length, int arr[][102])
 		printf(" ");
 	}
 	printf("%d", 100);
+	printf("\n");
 }
 
 void clean_pitch(int height, int length, int arr[][102]) {
@@ -161,10 +157,10 @@ void clean_pitch(int height, int length, int arr[][102]) {
 int main(void) 
 {
 	srand(time(NULL));
-	int x =0, y=0, ang=0, a=0, b=0, po=0;
+	int x = 0, y = 0, t = 0, f=0, ang = 0, a = 0, b = 0, po = 0;
 	int answer = 1, gravity = 2;
 	float wind;
-	int i, k, j = 0;
+	int p1_score=0, p2_score = 0;
 	int pitch_length = 102;
 	int pitch_height = 31;
 	int arr[31][102] = { 0, };
@@ -209,12 +205,12 @@ int main(void)
 
 		while (1)
 		{
-			printf("intensity of power(1-99): ");
+			printf("P1. intensity of power(1-99): ");
 			scanf_s("%d", &po);
 			while (po> 99 | po < 1)
 			{
 				printf("out of range. \n");
-				printf("intensity of power(1-99): ");
+				printf("P1. intensity of power(1-99): ");
 				scanf_s("%d", &po);
 			}
 			printf("angle(0~90¡Æ): ");
@@ -228,17 +224,48 @@ int main(void)
 			clean_pitch(pitch_height, pitch_length, arr);
 			me(x, y, arr);
 			enemy(a, b, arr);
-			P1_trajectory(x + 3, 30 - y - 3, a, b, po, ang, gravity, wind, arr);
-			//P2_trajectory(a - 3, 30 - b - 3, x, y, po, ang, gravity, wind, arr);
+
+			if ((P1_trajectory(x + 3, 30 - y - 3, a, b, po, ang, gravity, wind, arr))==1)
+			{
+				p1_score++;
+				printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+			}
+			else {
+				printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+			}
 			print_pitch(pitch_height, pitch_length, arr);
+			
+			printf("P2. intensity of power(1-99): ");
+			scanf_s("%d", &po);
+			while (po > 99 | po < 1)
+			{
+				printf("out of range. \n");
+				printf("P2. intensity of power(1-99): ");
+				scanf_s("%d", &po);
+			}
+			printf("angle(0~90¡Æ): ");
+			scanf_s("%d", &ang);
+			while (ang > 90 | ang < 0)
+			{
+				printf("out of range. \n");
+				printf("angle(0~90¡Æ): ");
+				scanf_s("%d", &ang);
+			}
+			clean_pitch(pitch_height, pitch_length, arr);
+			me(x, y, arr);
+			enemy(a, b, arr);
 			printf("\n");
+
+			if ((P2_trajectory(a - 3, 30 - b - 3, x, y, po, ang, gravity, wind, arr))==1)
+			{
+				p2_score++;
+				printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+			}
+			else {
+				printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+			}
+			print_pitch(pitch_height, pitch_length, arr);
 		}
-
 	}
-	else
-	{
-
-	}
-
 	return 0;
 }
