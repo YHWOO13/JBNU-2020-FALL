@@ -1,7 +1,7 @@
 /* Author: Yoonhyuck WOO / JBNU_Industrial Information system Engineering
- Date; Sep. 27 2020
+ Date; Sep. 27. 2020 - Nov. 3. 2020
  Title: Fortress
- Original: 1st Sem. Lecture: Basic Programming, Prof ±è¼ºÅÂ
+ Original: 1st Sem. Lecture: Basic Programming, Prof ±è½ÂÅÂ
            School of Computer Science and Engineering, College of Engineering, Chung-Ang University */
 #include<stdio.h>
 #include<stdlib.h>
@@ -154,23 +154,8 @@ void clean_pitch(int height, int length, int arr[][102]) {
 	}
 }
 
-int main(void) 
+void direction_wind(float wind)
 {
-	srand(time(NULL));
-	int x = 0, y = 0, t = 0, f=0, ang = 0, a = 0, b = 0, po = 0;
-	int answer = 1, gravity = 2;
-	float wind;
-	int p1_score=0, p2_score = 0;
-	int pitch_length = 102;
-	int pitch_height = 31;
-	int arr[31][102] = { 0, };
-	x = 1+ (rand() % 30) + 1;
-	y = (rand() % 20) + 1;
-	a = 40 + (rand() % 30) + 1;
-	b = (rand() % 20) + 1;
-	wind = rand() % 4 - 2;
-	printf("1. Start Game. \n");
-	printf("2. End Game. \n");
 	if (wind == 2)
 	{
 		printf("The power of wind: >> \n");
@@ -191,80 +176,120 @@ int main(void)
 	{
 		printf("The power of wind: << \n");
 	}
-	//printf("Your answer: ");
-	//scanf_s("%d", &answer);
+}
+
+int main(void) 
+{
+	srand(time(NULL));
+	int x = 0, y = 0, t = 0, f=0, ang = 0, a = 0, b = 0, po = 0;
+	int answer = 1, gravity = 2;
+	float wind;
+	int p1_score=0, p2_score = 0;
+	int pitch_length = 102;
+	int pitch_height = 31;
+	int arr[31][102] = { 0, };
+	x = (rand() % 30) + 2;
+	y = (rand() % 20);
+	a = (rand() % 30) + 41;
+	b = (rand() % 20);
+	wind = rand() % 4 - 2;
+	printf("1. Start Game. \n");
+	printf("2. End Game. \n");
 	
-	if (answer == 1)
+	printf("Your answer: ");
+	scanf_s("%d", &answer);
+	system("cls");
+	
+	while (1)
 	{
-		//start_point(pitch_height, pitch_length, arr);
-		clean_pitch(pitch_height, pitch_length, arr);
-		me(x, y, arr);
-		enemy(a, b, arr);
-		print_pitch(pitch_height, pitch_length, arr);
-		printf("\n");
-
-		while (1)
+		if (answer == 1)
 		{
-			printf("P1. intensity of power(1-99): ");
-			scanf_s("%d", &po);
-			while (po> 99 | po < 1)
-			{
-				printf("out of range. \n");
-				printf("P1. intensity of power(1-99): ");
-				scanf_s("%d", &po);
-			}
-			printf("angle(0~90¡Æ): ");
-			scanf_s("%d", &ang);
-			while (ang > 90 | ang < 0)
-			{
-				printf("out of range. \n");
-				printf("angle(0~90¡Æ): ");
-				scanf_s("%d", &ang);
-			}
 			clean_pitch(pitch_height, pitch_length, arr);
 			me(x, y, arr);
 			enemy(a, b, arr);
-
-			if ((P1_trajectory(x + 3, 30 - y - 3, a, b, po, ang, gravity, wind, arr))==1)
-			{
-				p1_score++;
-				printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
-			}
-			else {
-				printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
-			}
 			print_pitch(pitch_height, pitch_length, arr);
-			
-			printf("P2. intensity of power(1-99): ");
-			scanf_s("%d", &po);
-			while (po > 99 | po < 1)
-			{
-				printf("out of range. \n");
-				printf("P2. intensity of power(1-99): ");
-				scanf_s("%d", &po);
-			}
-			printf("angle(0~90¡Æ): ");
-			scanf_s("%d", &ang);
-			while (ang > 90 | ang < 0)
-			{
-				printf("out of range. \n");
-				printf("angle(0~90¡Æ): ");
-				scanf_s("%d", &ang);
-			}
-			clean_pitch(pitch_height, pitch_length, arr);
-			me(x, y, arr);
-			enemy(a, b, arr);
 			printf("\n");
 
-			if ((P2_trajectory(a - 3, 30 - b - 3, x, y, po, ang, gravity, wind, arr))==1)
+			while (1)
 			{
-				p2_score++;
-				printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+				printf("P1. intensity of power(1-99): ");
+				scanf_s("%d", &po);
+				while (po > 99 | po < 1)
+				{
+					printf("out of range. \n");
+					printf("P1. intensity of power(1-99): ");
+					scanf_s("%d", &po);
+				}
+				printf("angle(0~90¡Æ): ");
+				scanf_s("%d", &ang);
+				while (ang > 90 | ang < 0)
+				{
+					printf("out of range. \n");
+					printf("angle(0~90¡Æ): ");
+					scanf_s("%d", &ang);
+				}
+
+				clean_pitch(pitch_height, pitch_length, arr);
+				me(x, y, arr);
+				enemy(a, b, arr);
+				system("cls");
+				direction_wind(wind);
+
+				if ((P1_trajectory(x + 3, 30 - y - 3, a, b, po, ang, gravity, wind, arr)) == 1)
+				{
+					p1_score++;
+					printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+				}
+				else {
+					printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+				}
+				print_pitch(pitch_height, pitch_length, arr);
+
+				printf("P2. intensity of power(1-99): ");
+				scanf_s("%d", &po);
+				while (po > 99 | po < 1)
+				{
+					printf("out of range. \n");
+					printf("P2. intensity of power(1-99): ");
+					scanf_s("%d", &po);
+				}
+				printf("angle(0~90¡Æ): ");
+				scanf_s("%d", &ang);
+				while (ang > 90 | ang < 0)
+				{
+					printf("out of range. \n");
+					printf("angle(0~90¡Æ): ");
+					scanf_s("%d", &ang);
+				}
+
+				clean_pitch(pitch_height, pitch_length, arr);
+				me(x, y, arr);
+				enemy(a, b, arr);
+				printf("\n");
+				system("cls");
+				direction_wind(wind);
+
+				if ((P2_trajectory(a - 3, 30 - b - 3, x, y, po, ang, gravity, wind, arr)) == 1)
+				{
+					p2_score++;
+					printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+				}
+				else {
+					printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
+				}
+				print_pitch(pitch_height, pitch_length, arr);
 			}
-			else {
-				printf("P1 socre: %d, P2 score:%d \n", p1_score, p2_score);
-			}
-			print_pitch(pitch_height, pitch_length, arr);
+		}
+		else if (answer == 2) break;
+		else 
+		{
+			printf("Out of order.\n");
+			printf("1. Start Game. \n");
+			printf("2. End Game. \n");
+
+			printf("Your answer: ");
+			scanf_s("%d", &answer);
+			system("cls");
 		}
 	}
 	return 0;
