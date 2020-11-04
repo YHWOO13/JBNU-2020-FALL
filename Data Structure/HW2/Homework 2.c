@@ -10,9 +10,9 @@ typedef struct student* listPointer;
 typedef struct student
 {
 	int no;
-	char name[20];
+	char name[100];
 	int year;
-	char department[30];
+	char department[100];
 	int age;
 	listPointer* next;
 }student;
@@ -24,9 +24,9 @@ int add_stduent_info(int no, char* name, int year, char* department, int age)
 	listPointer stu = (student*)malloc(sizeof(student));
 	listPointer trace = head;
 	stu->no = no;
-	strcpy_s(stu->name, sizeof(name), name);
+	strcpy_s(stu->name, sizeof(stu->name), name);
 	stu->year = year;
-	strcpy_s(stu->department, sizeof(department), department);
+	strcpy_s(stu->department, sizeof(stu->department), department);
 	stu->age = age;
 	stu->next = NULL;
 	if (head) {
@@ -50,7 +50,7 @@ void visualize() {
 int main()
 {
 	int i = 1, j = 0, Std_no = 0, year = 0, age = 0, answer = 0;
-	char Std_name[30], department[30];
+	char Std_name[100], department[100];
 	listPointer trace = head;
 	//listPointer stu = (student*)malloc(sizeof(student));
 	printf("Choose the option: \n");
@@ -83,7 +83,7 @@ int main()
 			printf("             =============End this program.=============\n");
 			break;
 		}
-		else { printf("Out of order"); }
+		else { printf("             =============Out of order.=============\n"); }
 	}
 	return 0;
 }
