@@ -56,15 +56,15 @@ int P1_trajectory(int x, int y, int a, int b, int power, double angle, int gravi
 	double increasement_y;
 	increasement_y = sin(angle * (3.141592 / 180));
 	x = x + 3, y = y - 3;
-	while((0 < x & x < 100) & (0 < y & y < 30))
+	while((0 < x && x < 100) && (0 < y && y < 30))
 	{
 		y = y - (int) ((int)(power) * increasement_y)+gravity;
 		x = x + (int) ((int)(power) * increasement_x) + wind;
 		gravity=gravity+1;
-		if ((0 < x & x < 100) & (0 < y & y < 30))
+		if ((0 < x && x < 100) && (0 < y && y < 30))
 		{
 			arr[y][x] = 79;
-			if ((30 - b - 4 <= y & y <= 30 - b+1) & (a - 4 <= x & x <= a+1))
+			if ((30 - b - 4 <= y && y <= 30 - b+1) && (a - 4 <= x && x <= a+1))
 			{
 				printf("             =================================Success================================= \n");
 				return 1;
@@ -85,15 +85,15 @@ int P2_trajectory(int x, int y, int a, int b, int power, double angle, int gravi
 	double increasement_y;
 	increasement_y = sin(angle * (3.141592 / 180));
 	x = x - 3, y = y - 3;
-	while ((0 < x & x < 100) & (0 < y & y < 30))
+	while ((0 < x && x < 100) && (0 < y && y < 30))
 	{
 		y = y - (int)((int)(power)*increasement_y) + gravity;
 		x = x - (int)((int)(power)*increasement_x) - wind;
 		gravity = gravity + 1;
-		if ((0 < x & x < 100) & (0 < y & y < 30))
+		if ((0 < x && x < 100) && (0 < y && y < 30))
 		{
 			arr[y][x] = 79;
-			if ((30 - b - 4 <= y & y <= 30 - b +1) & (a - 4 <= x & x <= a+1))
+			if ((30 - b - 4 <= y && y <= 30 - b +1) && (a - 4 <= x && x <= a+1))
 			{
 				printf("             =================================Success================================= \n");
 				return 1;
@@ -214,7 +214,7 @@ int main(void)
 			{
 				printf("P1. intensity of power(1-99): ");
 				scanf_s("%d", &po);
-				while (po > 99 | po < 1)
+				while (po > 99 || po < 1)
 				{
 					printf("out of range. \n");
 					printf("P1. intensity of power(1-99): ");
@@ -222,7 +222,7 @@ int main(void)
 				}
 				printf("angle(0~90¡Æ): ");
 				scanf_s("%d", &ang);
-				while (ang > 90 | ang < 0)
+				while (ang > 90 || ang < 0)
 				{
 					printf("out of range. \n");
 					printf("angle(0~90¡Æ): ");
@@ -247,7 +247,7 @@ int main(void)
 
 				printf("P2. intensity of power(1-99): ");
 				scanf_s("%d", &po);
-				while (po > 99 | po < 1)
+				while (po > 99 || po < 1)
 				{
 					printf("out of range. \n");
 					printf("P2. intensity of power(1-99): ");
@@ -255,7 +255,7 @@ int main(void)
 				}
 				printf("angle(0~90¡Æ): ");
 				scanf_s("%d", &ang);
-				while (ang > 90 | ang < 0)
+				while (ang > 90 || ang < 0)
 				{
 					printf("out of range. \n");
 					printf("angle(0~90¡Æ): ");
