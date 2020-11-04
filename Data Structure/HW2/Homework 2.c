@@ -79,6 +79,7 @@ int main()
 		}
 		else if (answer == 2)
 		{
+			printf("             ==============You add %d student's information.==============\n", i-1);
 			visualize();
 			printf("             =============End this program.=============\n");
 			break;
