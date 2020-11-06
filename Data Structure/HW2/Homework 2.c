@@ -32,27 +32,47 @@ int add_stduent_info(int no, char* name, int year, char* department, int age)
 	strcpy_s(stu->department, sizeof(stu->department), department);
 	stu->age = age;
 	stu->next = NULL;
-	if (head) {
-		while (trace->next) {
+
+	if (head) 
+{
+		while (trace->next)
+		{
 			trace = trace->next;
 		}
 		trace->next = stu;
 	}
-	else {
+	else 
+	{
 		head = stu;
 	}
 }
 
 void visualize() {
+	int i = 1;
 	listPointer visual = head;
 	for (; visual; visual = visual->next) {
-		printf("Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", visual->no, visual->name, visual->year, visual->department, visual->age);
+		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n",i, visual->no, visual->name, visual->year, visual->department, visual->age);
+		i++;
 	}
 }
+void delete_all()
+{
+	while (head)
+		delete();
+}
+int delete()
+{
+	listPointer temp = NULL;
+	temp = head;
+	head = head->next;
+	free(temp);
+	temp = NULL;
+}
+
 
 int main()
 {
-	int i = 1, j = 0, Std_no = 0, year = 0, age = 0, answer = 0;
+	int i = 0, j = 0, Std_no = 0, year = 0, age = 0, answer = 0;
 	char Std_name[100], department[100];
 	listPointer trace = head;
 	printf("Choose the option: \n");
@@ -65,32 +85,33 @@ int main()
 		if (answer == 1)
 		{
 			printf("             =============Adding information of student.=============\n");
-			printf("%d. Std.No: ", i);
+			printf("%d. Std.No: ", i+1);
 			scanf_s("%d", &Std_no);
-			printf("%d. Std.Name: ", i);
+			printf("%d. Std.Name: ", i+1);
 			scanf_s("%s", &Std_name, sizeof(Std_name));
-			printf("%d. year: ", i);
+			printf("%d. year: ", i+1);
 			scanf_s("%d", &year);
-			printf("%d. department: ", i);
-			scanf_s("%s", department, sizeof(department));
-			printf("%d. age: ", i);
+			printf("%d. department: ", i+1);
+			scanf_s("%s", &department, sizeof(department));
+			printf("%d. age: ", i+1);
 			scanf_s("%d", &age);
 			printf("\n");
 			i = i + 1;
 
 			/*만약 함수에서 매개변수로 포인터변수를 썼다면 main에서 포인터 변수를 받기 위해
 			&붙여야하지만 구조체를 만들때 배열로 선언했기떄문에 변수이름만 써줘도 된다.*/
-			add_stduent_info(Std_no, Std_name, year, department, age);
+			add_stduent_info(Std_no, &Std_name, year, &department, age);
 		}
 		else if (answer == 2)
 		{
-			printf("             ==============You add %d student's information.==============\n", i-1);
+			printf("             ==============You add %d student's information.==============\n", i - 1);
 			visualize();
 			printf("             =============End this program.=============\n");
+			delete_all();
 			break;
 		}
 		else { printf("             =============Out of order.=============\n"); }
 	}
-	free(head);
+	
 	return 0;
 }
