@@ -1,5 +1,5 @@
 /* Author: Yoonhyuck WOO / JBNU_Industrial Information system Engineering
- Date; Nov. 11 2020
+ Date; Nov. 04. 2020 - Nov.06. 2020 
  Title: Student data in Linked List*/
 
 #include<stdio.h>
@@ -104,7 +104,7 @@ int main()
 		}
 		else if (answer == 2)
 		{
-			printf("             ==============You add %d student's information.==============\n", i - 1);
+			printf("             ==============You add %d student's information.==============\n", i);
 			visualize();
 			printf("             =============End this program.=============\n");
 			delete_all();
