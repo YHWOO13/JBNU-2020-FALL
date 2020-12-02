@@ -27,7 +27,7 @@ int add_stduent_info(int no, char* name, int year, char* department, int age)
 {
 	listPointer stu = (student*)malloc(sizeof(student));
 	listPointer trace1 = head;
-	listPointer trace2 = tail;
+
 	stu->no = no;
 	strcpy_s(stu->name, sizeof(stu->name), name);
 	stu->year = year;
@@ -49,20 +49,6 @@ int add_stduent_info(int no, char* name, int year, char* department, int age)
 	{
 		head = stu;
 	}
-	/*
-	if (tail)
-	{
-		while (tail->lnext)
-		{
-			trace2 = trace2->lnext;
-		}
-		trace2->lnext = stu->rnext;
-		stu->rnext = trace2->lnext;
-	}
-	else
-	{
-		tail = stu;
-	}*/
 }
 
 void forward_sequence() {
@@ -76,8 +62,8 @@ void forward_sequence() {
 
 void backward_sequence() {
 	int i = 1;
-	listPointer visual = tail;
-	for (; visual; visual = visual->lnext) {
+	listPointer visual = head->lnext;
+	for (; visual; visual = visual->rnext) {
 		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
 		i++;
 	}
@@ -117,8 +103,8 @@ int main()
 	{
 		printf("1. Add information of student.\n");
 		printf("2. Quit.\n");
+		printf("Answer: ");
 		scanf_s("%d", &answer);
-		printf("Answer: %d\n", answer);
 		if (answer == 1)
 		{
 			printf("             =============Adding information of student.=============\n");
@@ -141,38 +127,44 @@ int main()
 		}
 		else if (answer == 2)
 		{
-			printf("Choose another option \n");
-			printf("1. Print all data in forward sequence visiting. \n");
-			printf("2. Print all data in backward sequence visiting. \n");
-			printf("3. Do you want to know student's information?\n");
-			scanf_s("%d", &k);
-
-			if (k == 1)
+			while (1)
 			{
-				printf("             ==============You add %d student's information.==============\n", i);
-				forward_sequence();
-				printf("             =============End this program.=============\n");
-				delete_all();
-				break;
-			}
-			else if (k == 2)
-			{
-				printf("             ==============You add %d student's information.==============\n", i);
-				backward_sequence();
-				//printf("             =============End this program.=============\n");
-				//delete_all();
-				break;
-			}
+				printf("Choose another option. \n");
+				printf("1. Print all data in forward sequence visiting. \n");
+				printf("2. Print all data in backward sequence visiting. \n");
+				printf("3. Do you want to know student's information?\n");
+				printf("4. End the program. \n");
+				printf("Answer: ");
+				scanf_s("%d", &k);
 
-			else if (k == 3)
-			{
-				printf("Write the student's name: ");
-				scanf_s("%s", &Std_name, sizeof(Std_name));
-				find_student(&Std_name);
-				break;
-			}
+				if (k == 1)
+				{
+					printf("             ==============You add %d student's information.==============\n", i);
+					forward_sequence();
+				}
+				else if (k == 2)
+				{
+					printf("             ==============You add %d student's information.==============\n", i);
+					backward_sequence();
+					//printf("             =============End this program.=============\n");
+					//delete_all();
+				}
 
-			else { printf("             =============Out of order.=============\n"); }
+				else if (k == 3)
+				{
+					printf("Write the student's name: ");
+					scanf_s("%s", &Std_name, sizeof(Std_name));
+					find_student(&Std_name);
+					break;
+				}
+				else if (k == 4)
+				{
+					delete_all();
+					exit(0);
+				}
+
+				else { printf("             =============Out of order.=============\n"); }
+			}
 		}
 		else { printf("             =============Out of order.=============\n"); }
 	}
