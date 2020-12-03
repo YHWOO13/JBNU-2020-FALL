@@ -23,7 +23,7 @@ typedef struct student
 listPointer head = NULL;
 listPointer tail = NULL;
 
-int add_stduent_info(int no, char* name, int year, char* department, int age)
+int add_stduent_info(int no, char* name, int year, char* department, int age, listPointer tail)
 {
 	listPointer stu = (student*)malloc(sizeof(student));
 	listPointer trace1 = head;
@@ -35,26 +35,34 @@ int add_stduent_info(int no, char* name, int year, char* department, int age)
 	stu->age = age;
 	stu->lnext = stu;
 	stu->rnext = NULL;
+	
 
 	if (head)
 	{
-		while (trace1->rnext)
+		while (trace1->rnext != tail)
 		{
 			trace1 = trace1->rnext;
 		}
-		trace1->rnext = stu->lnext;
-		stu->lnext = trace1->rnext;
+		trace1->rnext = stu;
+		stu->lnext = trace1;
+		stu->rnext = tail;
+		tail->lnext = stu;
 	}
 	else
 	{
 		head = stu;
+		head->rnext = tail;
+		tail->lnext = head;
 	}
+	tail->rnext = NULL;
+	head->lnext = NULL;
 }
 
-void forward_sequence() {
+void forward_sequence() 
+{
 	int i = 1;
 	listPointer visual = head;
-	for (; visual; visual = visual->rnext) {
+	for (; visual != tail->rnext; visual = visual->rnext) {
 		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
 		i++;
 	}
@@ -62,8 +70,8 @@ void forward_sequence() {
 
 void backward_sequence() {
 	int i = 1;
-	listPointer visual = head->lnext;
-	for (; visual; visual = visual->rnext) {
+	listPointer visual = tail;
+	for (; visual != head->lnext; visual = visual->lnext) {
 		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
 		i++;
 	}
@@ -97,7 +105,8 @@ int main()
 {
 	int i = 0, j = 0, k=0, Std_no = 0, year = 0, age = 0, answer = 0;
 	char Std_name[100], department[100];
-	listPointer trace = head;
+//tail 메모리 할당
+	tail = (student*)malloc(sizeof(student));
 	printf("Choose the option: \n");
 	while (1)
 	{
@@ -121,9 +130,9 @@ int main()
 			printf("\n");
 			i = i + 1;
 
-			/*만약 함수에서 매개변수로 포인터변수를 썼다면 main에서 포인터 변수를 받기 위해
-			&붙여야하지만 구조체를 만들때 배열로 선언했기문에 변수이름만 써줘도 된다.*/
-			add_stduent_info(Std_no, &Std_name, year, &department, age);
+/* 전역변수인 tail을 main에서 메모리 할당 후 add_student 함수에서 
+head와 연결 시킨 후 , 전역변수인점을 이용하며 출력 함수(2개)에 사용*/
+			add_stduent_info(Std_no, &Std_name, year, &department, age, &tail);
 		}
 		else if (answer == 2)
 		{
@@ -146,8 +155,6 @@ int main()
 				{
 					printf("             ==============You add %d student's information.==============\n", i);
 					backward_sequence();
-					//printf("             =============End this program.=============\n");
-					//delete_all();
 				}
 
 				else if (k == 3)
@@ -168,6 +175,8 @@ int main()
 		}
 		else { printf("             =============Out of order.=============\n"); }
 	}
-
+//tail 메모리 할당 해제
+	free(tail);
+	tail = NULL;
 	return 0;
 }
