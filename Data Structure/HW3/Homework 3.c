@@ -23,10 +23,10 @@ typedef struct student
 listPointer head = NULL;
 listPointer tail = NULL;
 
-int add_stduent_info(int no, char* name, int year, char* department, int age, listPointer tail)
+int add_stduent_info(int no, char* name, int year, char* department, int age)
 {
 	listPointer stu = (student*)malloc(sizeof(student));
-	listPointer trace1 = head;
+	listPointer trace = head;
 
 	stu->no = no;
 	strcpy_s(stu->name, sizeof(stu->name), name);
@@ -36,15 +36,14 @@ int add_stduent_info(int no, char* name, int year, char* department, int age, li
 	stu->lnext = stu;
 	stu->rnext = NULL;
 	
-
 	if (head)
 	{
-		while (trace1->rnext != tail)
+		while (trace->rnext != tail)
 		{
-			trace1 = trace1->rnext;
+			trace = trace->rnext;
 		}
-		trace1->rnext = stu;
-		stu->lnext = trace1;
+		trace->rnext = stu;
+		stu->lnext = trace;
 		stu->rnext = tail;
 		tail->lnext = stu;
 	}
@@ -58,11 +57,11 @@ int add_stduent_info(int no, char* name, int year, char* department, int age, li
 	head->lnext = NULL;
 }
 
-void forward_sequence() 
+void forward_sequence()
 {
 	int i = 1;
 	listPointer visual = head;
-	for (; visual != tail->rnext; visual = visual->rnext) {
+	for (; visual != tail; visual = visual->rnext) {
 		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
 		i++;
 	}
@@ -70,7 +69,7 @@ void forward_sequence()
 
 void backward_sequence() {
 	int i = 1;
-	listPointer visual = tail;
+	listPointer visual = tail->lnext;
 	for (; visual != head->lnext; visual = visual->lnext) {
 		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
 		i++;
@@ -78,13 +77,20 @@ void backward_sequence() {
 }
 void delete_all()
 {
-	while (head)
+	listPointer temp = NULL;
+	while (head->rnext)
 		delete();
+//tail 메모리 해제
+	temp = head;
+	head = head->rnext;
+	free(tail);
+	temp = NULL;
+	tail = NULL;
 }
 int delete()
 {
 	listPointer temp = NULL;
-	temp = head->lnext;
+	temp = head;
 	head = head->rnext;
 	free(temp);
 	temp = NULL;
@@ -107,11 +113,12 @@ int main()
 	char Std_name[100], department[100];
 //tail 메모리 할당
 	tail = (student*)malloc(sizeof(student));
-	printf("Choose the option: \n");
+	printf("Choose 1st option: \n");
 	while (1)
 	{
 		printf("1. Add information of student.\n");
-		printf("2. Quit.\n");
+		printf("2. Quit and Visualize or find information.\n");
+		printf("3. End this Program.\n");
 		printf("Answer: ");
 		scanf_s("%d", &answer);
 		if (answer == 1)
@@ -132,17 +139,17 @@ int main()
 
 /* 전역변수인 tail을 main에서 메모리 할당 후 add_student 함수에서 
 head와 연결 시킨 후 , 전역변수인점을 이용하며 출력 함수(2개)에 사용*/
-			add_stduent_info(Std_no, &Std_name, year, &department, age, &tail);
+			add_stduent_info(Std_no, &Std_name, year, &department, age);
 		}
 		else if (answer == 2)
 		{
 			while (1)
 			{
-				printf("Choose another option. \n");
+				printf("\n Choose 2nd option. \n");
 				printf("1. Print all data in forward sequence visiting. \n");
 				printf("2. Print all data in backward sequence visiting. \n");
 				printf("3. Do you want to know student's information?\n");
-				printf("4. End the program. \n");
+				printf("4. Back to 1st option\n");
 				printf("Answer: ");
 				scanf_s("%d", &k);
 
@@ -166,17 +173,18 @@ head와 연결 시킨 후 , 전역변수인점을 이용하며 출력 함수(2�
 				}
 				else if (k == 4)
 				{
-					delete_all();
-					exit(0);
+					break;
 				}
-
 				else { printf("             =============Out of order.=============\n"); }
 			}
 		}
+		else if (answer == 3)
+		{
+			delete_all();
+			break;
+		}
 		else { printf("             =============Out of order.=============\n"); }
 	}
-//tail 메모리 할당 해제
-	free(tail);
-	tail = NULL;
+
 	return 0;
 }
