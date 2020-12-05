@@ -1,5 +1,5 @@
 ﻿/* Author: Yoonhyuck WOO / JBNU_Industrial Information system Engineering
- Date; Nov. 9. 2020 - Nov.11. 2020
+ Date; Nov. 30. 2020 - 12.05. 2020
  Title: Student data in doubly Linked List*/
 
 #include<stdio.h>
@@ -130,6 +130,7 @@ int main()
 	printf("Choose 1st option: \n");
 	while (1)
 	{
+		printf("             ==============Choose 1st option.============== \n");
 		printf("1. Add information of student.\n");
 		printf("2. Quit and Visualize or find information.\n");
 		printf("3. End this Program.\n");
@@ -151,15 +152,13 @@ int main()
 			printf("\n");
 			i = i + 1;
 
-			/* 전역변수인 tail을 main에서 메모리 할당 후 add_student 함수에서
-			head와 연결 시킨 후 , 전역변수인점을 이용하며 출력 함수(2개)에 사용*/
 			add_stduent_info(Std_no, &Std_name, year, &department, age);
 		}
 		else if (answer == 2)
 		{
 			while (1)
 			{
-				printf("\n Choose 2nd option. \n");
+				printf("\n             ==============Choose 2nd option.============== \n");
 				printf("1. Print all data in forward sequence visiting. \n");
 				printf("2. Print all data in backward sequence visiting. \n");
 				printf("3. Do you want to know student's information?\n");
@@ -169,12 +168,12 @@ int main()
 
 				if (k == 1)
 				{
-					printf("             ==============You add %d student's information.==============\n", i);
+					printf("             ==============Print forward sequence visiting.==============\n", i);
 					forward_sequence();
 				}
 				else if (k == 2)
 				{
-					printf("             ==============You add %d student's information.==============\n", i);
+					printf("             ==============Print backward sequence visiting.==============\n", i);
 					backward_sequence();
 				}
 
