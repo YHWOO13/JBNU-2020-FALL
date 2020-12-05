@@ -56,20 +56,16 @@ int add_stduent_info(int no, char* name, int year, char* department, int age)
 
 void forward_sequence()
 {
-	int i = 1;
 	listPointer visual = head->rnext;
 	for (; visual != tail; visual = visual->rnext) {
-		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
-		i++;
+		printf("Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", visual->no, visual->name, visual->year, visual->department, visual->age);
 	}
 }
 
 void backward_sequence() {
-	int i = 1;
 	listPointer visual = tail->lnext;
 	for (; visual != head; visual = visual->lnext) {
-		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
-		i++;
+		printf("Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", visual->no, visual->name, visual->year, visual->department, visual->age);
 	}
 }
 //head & tail 메모리 해제
@@ -92,14 +88,6 @@ void delete_all()
 	tail = NULL;
 	head = NULL;
 	trace = NULL;
-}
-int delete()
-{
-	listPointer temp = NULL;
-	temp = head;
-	head = head->rnext;
-	free(temp);
-	temp = NULL;
 }
 
 void find_student(char* name)
