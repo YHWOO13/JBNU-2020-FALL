@@ -7,8 +7,6 @@
 #include<string.h>
 
 typedef struct student* listPointer;
-/*문자열을 받을 때 char* name은 메모리 할당을 또 따로 해주어야 함= 번거로움
-밑에와 같이 배열로 받으면 그럴 필요가 없음.*/
 typedef struct student
 {
 	listPointer* lnext;
@@ -35,8 +33,8 @@ int add_stduent_info(int no, char* name, int year, char* department, int age)
 	stu->age = age;
 	stu->lnext = stu;
 	stu->rnext = NULL;
-	
-	if (head)
+
+	if (head->rnext != tail)
 	{
 		while (trace->rnext != tail)
 		{
@@ -49,18 +47,17 @@ int add_stduent_info(int no, char* name, int year, char* department, int age)
 	}
 	else
 	{
-		head = stu;
-		head->rnext = tail;
-		tail->lnext = head;
+		stu->lnext = head;
+		head->rnext = stu;
+		tail->lnext = stu;
+		stu->rnext = tail;
 	}
-	tail->rnext = NULL;
-	head->lnext = NULL;
 }
 
 void forward_sequence()
 {
 	int i = 1;
-	listPointer visual = head;
+	listPointer visual = head->rnext;
 	for (; visual != tail; visual = visual->rnext) {
 		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
 		i++;
@@ -70,22 +67,31 @@ void forward_sequence()
 void backward_sequence() {
 	int i = 1;
 	listPointer visual = tail->lnext;
-	for (; visual != head->lnext; visual = visual->lnext) {
+	for (; visual != head; visual = visual->lnext) {
 		printf("%d.  Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", i, visual->no, visual->name, visual->year, visual->department, visual->age);
 		i++;
 	}
 }
+//head & tail 메모리 해제
 void delete_all()
 {
+	listPointer trace = NULL;
 	listPointer temp = NULL;
-	while (head->rnext)
-		delete();
-//tail 메모리 해제
-	temp = head;
-	head = head->rnext;
+	trace = head;
+	trace = trace->rnext;
+	while (trace != tail)
+	{
+		temp = trace;
+		trace = trace->rnext;
+		free(temp);
+		temp = NULL;
+	}
 	free(tail);
+	free(head);
 	temp = NULL;
 	tail = NULL;
+	head = NULL;
+	trace = NULL;
 }
 int delete()
 {
@@ -96,12 +102,12 @@ int delete()
 	temp = NULL;
 }
 
-void find_student(char *name)
+void find_student(char* name)
 {
 	listPointer trace = head;
-	while (strcmp(trace->name,name))
+	while (strcmp(trace->name, name))
 	{
-		trace=trace->rnext;
+		trace = trace->rnext;
 	}
 	printf("Std.No: %d, Std.Name: %s, Year: %d, Department: %s, Age: %d \n", trace->no, trace->name, trace->year, trace->department, trace->age);
 	printf("\n");
@@ -109,10 +115,18 @@ void find_student(char *name)
 
 int main()
 {
-	int i = 0, j = 0, k=0, Std_no = 0, year = 0, age = 0, answer = 0;
+	int i = 0, j = 0, k = 0, Std_no = 0, year = 0, age = 0, answer = 0;
 	char Std_name[100], department[100];
-//tail 메모리 할당
+
+	//head & tail 메모리 할당
+	head = (student*)malloc(sizeof(student));
 	tail = (student*)malloc(sizeof(student));
+
+	head->rnext = tail;
+	tail->lnext = head;
+	tail->rnext = NULL;
+	head->lnext = NULL;
+
 	printf("Choose 1st option: \n");
 	while (1)
 	{
@@ -137,8 +151,8 @@ int main()
 			printf("\n");
 			i = i + 1;
 
-/* 전역변수인 tail을 main에서 메모리 할당 후 add_student 함수에서 
-head와 연결 시킨 후 , 전역변수인점을 이용하며 출력 함수(2개)에 사용*/
+			/* 전역변수인 tail을 main에서 메모리 할당 후 add_student 함수에서
+			head와 연결 시킨 후 , 전역변수인점을 이용하며 출력 함수(2개)에 사용*/
 			add_stduent_info(Std_no, &Std_name, year, &department, age);
 		}
 		else if (answer == 2)
