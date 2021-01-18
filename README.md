@@ -2,7 +2,7 @@
 
 Lesson: Data Structure
 
-Lesson: R
-  Midterm test: Analysis of Crimd dataset
+Lesson: R<br>
+  Midterm test: Analysis of Crimd dataset<br>
   Term Project: Analysis of European Soccer dataset
 A project: Fortress
