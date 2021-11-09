@@ -1,8 +1,8 @@
 /* Author: Yoonhyuck WOO / JBNU_Industrial Information system Engineering
  Date; Sep. 27. 2020 - Nov. 3. 2020
  Title: Fortress
- Original: 1st Sem. Lecture: Basic Programming, Prof ±è½ÂÅÂ
-           School of Computer Science and Engineering, College of Engineering, Chung-Ang University */
+ Original: 1st Sem. Lecture: Basic Programming, Prof Sueng-tae Kim
+		   School of Computer Science and Engineering, College of Engineering, Chung-Ang University */
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
@@ -19,7 +19,7 @@ int me(int x, int y, int arr[][102]) {
 		for (j = x; j < x + 3; j++)
 			arr[i][j] = 92;
 	}
-	arr[30 - y -3][x +3] = 79;
+	arr[30 - y - 3][x + 3] = 79;
 }
 int enemy(int a, int b, int arr[][102]) {
 	int i, j = 0;
@@ -36,12 +36,12 @@ int enemy(int a, int b, int arr[][102]) {
 int boundary(int y, int x, int arr[][102])
 {
 	int i, j = 0;
-	//yÃà
-	for (i = 0; i < y-1; i++)
+	//y_axis
+	for (i = 0; i < y - 1; i++)
 	{
 		arr[i][1] = 5;
 	}
-	//xÃà
+	//x_axis
 	for (i = 2; i < x; i++)
 	{
 		arr[29][i] = 95;
@@ -50,21 +50,21 @@ int boundary(int y, int x, int arr[][102])
 
 int P1_trajectory(int x, int y, int a, int b, int power, double angle, int gravity, float wind, int arr[][102])
 {
-	int i= 0, success = 1, fail = 0;
+	int i = 0, success = 1, fail = 0;
 	double increasement_x;
 	increasement_x = cos(angle * (3.141592 / 180));
 	double increasement_y;
 	increasement_y = sin(angle * (3.141592 / 180));
 	x = x + 3, y = y - 3;
-	while((0 < x && x < 100) && (0 < y && y < 30))
+	while ((0 < x && x < 100) && (0 < y && y < 30))
 	{
-		y = y - (int) ((int)(power) * increasement_y)+gravity;
-		x = x + (int) ((int)(power) * increasement_x) + wind;
-		gravity=gravity+1;
+		y = y - (int)((int)(power)*increasement_y) + gravity;
+		x = x + (int)((int)(power)*increasement_x) + wind;
+		gravity = gravity + 1;
 		if ((0 < x && x < 100) && (0 < y && y < 30))
 		{
 			arr[y][x] = 79;
-			if ((30 - b - 4 <= y && y <= 30 - b+1) && (a - 4 <= x && x <= a+1))
+			if ((30 - b - 4 <= y && y <= 30 - b + 1) && (a - 4 <= x && x <= a + 1))
 			{
 				printf("             =================================Success================================= \n");
 				return 1;
@@ -93,7 +93,7 @@ int P2_trajectory(int x, int y, int a, int b, int power, double angle, int gravi
 		if ((0 < x && x < 100) && (0 < y && y < 30))
 		{
 			arr[y][x] = 79;
-			if ((30 - b - 4 <= y && y <= 30 - b +1) && (a - 4 <= x && x <= a+1))
+			if ((30 - b - 4 <= y && y <= 30 - b + 1) && (a - 4 <= x && x <= a + 1))
 			{
 				printf("             =================================Success================================= \n");
 				return 1;
@@ -113,11 +113,11 @@ int start_point(int height, int length, int arr[][102])
 	int i, j, k = 0;
 	int me_x, me_y = 0;
 	me_x = (rand() % 30) + 1;
-	me_y =1+ (rand() % 20) + 1;
+	me_y = 1 + (rand() % 20) + 1;
 
 	int enemy_x, enemy_y = 0;
 	enemy_x = 40 + (rand() % 30) + 1;
-	enemy_y =1+ (rand() % 20) + 1;
+	enemy_y = 1 + (rand() % 20) + 1;
 
 	me(me_x, me_y, arr);
 	enemy(enemy_y, enemy_x, arr);
@@ -126,8 +126,8 @@ int print_pitch(int height, int length, int arr[][102])
 {
 	int i, j, k = 0;
 	boundary(height, length, arr);
-	
-	for (i = 0; i < height ; i++)
+
+	for (i = 0; i < height; i++)
 	{
 		for (j = 0; j < length; j++)
 		{
@@ -149,7 +149,7 @@ void clean_pitch(int height, int length, int arr[][102]) {
 	{
 		for (j = 0; j < length; j++)
 		{
-			arr[i][j]=' ';
+			arr[i][j] = ' ';
 		}
 	}
 }
@@ -166,7 +166,7 @@ void direction_wind(float wind)
 	}
 	else if (wind == 0)
 	{
-		printf("The power of wind: Ùí \n");
+		printf("The power of wind: zero \n");
 	}
 	else if (wind == -1)
 	{
@@ -178,13 +178,13 @@ void direction_wind(float wind)
 	}
 }
 
-int main(void) 
+int main(void)
 {
 	srand(time(NULL));
-	int x = 0, y = 0, t = 0, f=0, ang = 0, a = 0, b = 0, po = 0;
+	int x = 0, y = 0, t = 0, f = 0, ang = 0, a = 0, b = 0, po = 0;
 	int answer = 1, gravity = 2;
 	float wind;
-	int p1_score=0, p2_score = 0;
+	int p1_score = 0, p2_score = 0;
 	int pitch_length = 102;
 	int pitch_height = 31;
 	int arr[31][102] = { 0, };
@@ -195,11 +195,11 @@ int main(void)
 	wind = rand() % 4 - 2;
 	printf("1. Start Game. \n");
 	printf("2. End Game. \n");
-	
+
 	printf("Your answer: ");
 	scanf_s("%d", &answer);
 	system("cls");
-	
+
 	while (1)
 	{
 		if (answer == 1)
@@ -281,7 +281,7 @@ int main(void)
 			}
 		}
 		else if (answer == 2) break;
-		else 
+		else
 		{
 			printf("Out of order.\n");
 			printf("1. Start Game. \n");
