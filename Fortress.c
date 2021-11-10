@@ -220,12 +220,12 @@ int main(void)
 					printf("P1. intensity of power(1-99): ");
 					scanf_s("%d", &po);
 				}
-				printf("angle(0~90¡Æ): ");
+				printf("angle(0~90'C): ");
 				scanf_s("%d", &ang);
 				while (ang > 90 || ang < 0)
 				{
 					printf("out of range. \n");
-					printf("angle(0~90¡Æ): ");
+					printf("angle(0~90'C): ");
 					scanf_s("%d", &ang);
 				}
 
@@ -253,12 +253,12 @@ int main(void)
 					printf("P2. intensity of power(1-99): ");
 					scanf_s("%d", &po);
 				}
-				printf("angle(0~90¡Æ): ");
+				printf("angle(0~90'C): ");
 				scanf_s("%d", &ang);
 				while (ang > 90 || ang < 0)
 				{
 					printf("out of range. \n");
-					printf("angle(0~90¡Æ): ");
+					printf("angle(0~90'C): ");
 					scanf_s("%d", &ang);
 				}
 
